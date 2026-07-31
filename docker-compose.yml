@@ -1,0 +1,26 @@
+services:
+  db:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_DB: auth_db
+      POSTGRES_USER: auth_user
+      POSTGRES_PASSWORD: auth
+    ports: [ "5437:5432" ]
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U auth_user -d auth_db" ]
+      interval: 5s
+      retries: 10
+
+  app:
+    build: .
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/auth_db
+      SPRING_DATASOURCE_USERNAME: auth_user
+      SPRING_DATASOURCE_PASSWORD: auth
+      TPM_JWT_PRIVATE_KEY_LOCATION: file:/app/keys/private.pem
+    volumes:
+      - ../tpm-platform/keys/private.pem:/app/keys/private.pem:ro
+    ports: [ "8080:8080" ]
+    depends_on:
+      db:
+        condition: service_healthy
