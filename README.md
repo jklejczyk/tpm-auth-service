@@ -3,7 +3,7 @@
 Issues signed JWT tokens for the TPM system.
 
 Part of a set of four repositories — **start with
-[tpm-platform](../tpm-platform/README.md)**, which explains the architecture and runs
+[tpm-platform](https://github.com/jklejczyk/tpm-platform)**, which explains the architecture and runs
 everything together.
 
 ## This is a stand-in, on purpose
